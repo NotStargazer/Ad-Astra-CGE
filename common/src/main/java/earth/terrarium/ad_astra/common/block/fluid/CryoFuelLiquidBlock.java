@@ -4,6 +4,7 @@ import earth.terrarium.ad_astra.common.registry.ModDamageSource;
 import earth.terrarium.ad_astra.common.registry.ModFluids;
 import earth.terrarium.botarium.api.registry.fluid.BotariumLiquidBlock;
 import earth.terrarium.botarium.api.registry.fluid.FluidData;
+import earth.terrarium.botarium.api.registry.fluid.FluidProperties;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleTypes;
@@ -45,6 +46,8 @@ public class CryoFuelLiquidBlock extends BotariumLiquidBlock {
                 entity.setSharedFlagOnFire(false);
                 entity.hurt(ModDamageSource.CRYO_FUEL, 4 * (entity.fireImmune() ? 2 : 1));
             }
+
+
         }
     }
 
@@ -53,6 +56,8 @@ public class CryoFuelLiquidBlock extends BotariumLiquidBlock {
         if (this.shouldSpreadLiquid(level, pos, state)) {
             level.scheduleTick(pos, state.getFluidState().getType(), ModFluids.CRYO_FUEL.get().getTickDelay(level));
         }
+
+
     }
 
     @Override

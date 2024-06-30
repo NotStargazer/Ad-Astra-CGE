@@ -3,13 +3,19 @@ package earth.terrarium.ad_astra.common.entity.vehicle;
 import earth.terrarium.ad_astra.common.registry.ModEntityTypes;
 import earth.terrarium.ad_astra.common.registry.ModItems;
 import earth.terrarium.ad_astra.common.registry.ModParticleTypes;
+import earth.terrarium.ad_astra.common.registry.ModTags;
 import earth.terrarium.ad_astra.common.util.ModUtils;
+import earth.terrarium.botarium.api.fluid.FluidHolder;
+import earth.terrarium.botarium.api.fluid.FluidHooks;
+import earth.terrarium.botarium.api.fluid.PlatformFluidItemHandler;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+
+import java.util.Optional;
 
 public class RocketTier4 extends Rocket {
 
@@ -19,6 +25,24 @@ public class RocketTier4 extends Rocket {
 
     public RocketTier4(EntityType<?> type, Level level) {
         super(type, level, 4);
+    }
+
+    @Override
+    public void tryInsertingIntoTank()
+    {
+        if (this.level.isClientSide)
+        {
+            ItemStack stack = this.getInventory().getItem(0);
+            Optional<PlatformFluidItemHandler> possibleItemFluidContainer = FluidHooks.safeGetItemFluidManager(stack);
+            if (possibleItemFluidContainer.isPresent())
+            {
+                PlatformFluidItemHandler itemFluidHandler = possibleItemFluidContainer.get();
+                FluidHolder itemHolder = itemFluidHandler.getFluidInTank(0);
+                if (itemHolder.getFluid().is(ModTags.FUEL_TIER_4)) {
+                    super.tryInsertingIntoTank();
+                }
+            }
+        }
     }
 
     @Override

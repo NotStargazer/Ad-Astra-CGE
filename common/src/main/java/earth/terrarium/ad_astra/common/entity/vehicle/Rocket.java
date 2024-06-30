@@ -194,6 +194,8 @@ public class Rocket extends Vehicle {
         }
     }
 
+
+
     public void openPlanetSelectionGui() {
         if (!this.isVehicle()) {
             if (!this.level.isClientSide) {

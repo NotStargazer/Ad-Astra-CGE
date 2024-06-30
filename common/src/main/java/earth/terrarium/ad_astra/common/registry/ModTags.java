@@ -25,6 +25,10 @@ public class ModTags {
     public static final TagKey<Fluid> EFFICIENT_FUELS = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(AdAstra.MOD_ID, "efficient_fuel"));
     public static final TagKey<Fluid> OXYGEN = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":oxygen"));
     public static final TagKey<Fluid> OIL = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":oil"));
+    public static final TagKey<Fluid> FUEL_TIER_1 = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":fuel_tier_1"));
+    public static final TagKey<Fluid> FUEL_TIER_2 = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":fuel_tier_2"));
+    public static final TagKey<Fluid> FUEL_TIER_3 = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":fuel_tier_3"));
+    public static final TagKey<Fluid> FUEL_TIER_4 = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":fuel_tier_4"));
 
     public static final TagKey<Item> CALORITE_INGOTS = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(getCommonNamespace() + ":calorite_ingots"));
     public static final TagKey<Item> CALORITE_NUGGETS = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(getCommonNamespace() + ":calorite_nuggets"));
@@ -54,7 +58,8 @@ public class ModTags {
 
     public static final TagKey<Block> PASSES_FLOOD_FILL = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(AdAstra.MOD_ID, "passes_flood_fill"));
     public static final TagKey<Block> BLOCKS_FLOOD_FILL = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(AdAstra.MOD_ID, "blocks_flood_fill"));
-
+    public static final TagKey<Block> EXCLUDE_FREEZES_IN_SPACE = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(AdAstra.MOD_ID, "exclude_in_space"));
+    
     private static String getCommonNamespace() {
         return ArchitecturyTarget.getCurrentTarget().equals("fabric") ? "c" : "forge";
     }
