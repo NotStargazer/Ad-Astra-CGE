@@ -9,6 +9,7 @@ import earth.terrarium.botarium.api.fluid.PlatformFluidItemHandler;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 
 import java.util.Optional;
 
@@ -28,18 +29,17 @@ public class RocketTier2 extends Rocket
     @Override
     public void tryInsertingIntoTank()
     {
-        if (this.level.isClientSide)
+        if (!this.level.isClientSide)
         {
             ItemStack stack = this.getInventory().getItem(0);
             Optional<PlatformFluidItemHandler> possibleItemFluidContainer = FluidHooks.safeGetItemFluidManager(stack);
             if (possibleItemFluidContainer.isPresent())
             {
                 PlatformFluidItemHandler itemFluidHandler = possibleItemFluidContainer.get();
-                FluidHolder itemHolder = itemFluidHandler.getFluidInTank(0);
-                if (
-                        itemHolder.getFluid().is(ModTags.FUEL_TIER_2) ||
-                        itemHolder.getFluid().is(ModTags.FUEL_TIER_3) ||
-                        itemHolder.getFluid().is(ModTags.FUEL_TIER_4)) {
+                FluidState fluidState = itemFluidHandler.getFluidInTank(0).getFluid().defaultFluidState();
+                if (fluidState.is(ModTags.FUEL_TIER_2) || fluidState.is(ModTags.FUEL_TIER_3)
+                        || fluidState.is(ModTags.FUEL_TIER_4))
+                {
                     super.tryInsertingIntoTank();
                 }
             }

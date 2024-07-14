@@ -13,34 +13,37 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
-public class RocketTier3 extends Rocket {
+public class RocketTier3 extends Rocket
+{
 
-    public RocketTier3(Level level) {
+    public RocketTier3(Level level)
+    {
         super(ModEntityTypes.TIER_3_ROCKET.get(), level, 3);
     }
 
-    public RocketTier3(EntityType<?> type, Level level) {
+    public RocketTier3(EntityType<?> type, Level level)
+    {
         super(type, level, 3);
     }
 
     @Override
     public void tryInsertingIntoTank()
     {
-        if (this.level.isClientSide)
+        if (!this.level.isClientSide)
         {
             ItemStack stack = this.getInventory().getItem(0);
             Optional<PlatformFluidItemHandler> possibleItemFluidContainer = FluidHooks.safeGetItemFluidManager(stack);
             if (possibleItemFluidContainer.isPresent())
             {
                 PlatformFluidItemHandler itemFluidHandler = possibleItemFluidContainer.get();
-                FluidHolder itemHolder = itemFluidHandler.getFluidInTank(0);
-                if (
-                        itemHolder.getFluid().is(ModTags.FUEL_TIER_3) ||
-                        itemHolder.getFluid().is(ModTags.FUEL_TIER_4)) {
+                FluidState fluidState = itemFluidHandler.getFluidInTank(0).getFluid().defaultFluidState();
+                if (fluidState.is(ModTags.FUEL_TIER_3) || fluidState.is(ModTags.FUEL_TIER_4))
+                {
                     super.tryInsertingIntoTank();
                 }
             }
@@ -48,24 +51,29 @@ public class RocketTier3 extends Rocket {
     }
 
     @Override
-    public double getPassengersRidingOffset() {
+    public double getPassengersRidingOffset()
+    {
         return super.getPassengersRidingOffset() + 1.0f;
     }
 
     @Override
-    public boolean shouldSit() {
+    public boolean shouldSit()
+    {
         return false;
     }
 
     @Override
-    public ItemStack getDropStack() {
+    public ItemStack getDropStack()
+    {
         return ModItems.TIER_3_ROCKET.get().getDefaultInstance();
     }
 
     @Override
-    public void spawnAfterburnerParticles() {
+    public void spawnAfterburnerParticles()
+    {
         super.spawnAfterburnerParticles();
-        if (this.level instanceof ServerLevel serverWorld) {
+        if (this.level instanceof ServerLevel serverWorld)
+        {
             Vec3 pos = this.position();
 
             float xRotator = Mth.cos(this.getYRot() * ((float) Math.PI / 180.0f)) * 0.98f;

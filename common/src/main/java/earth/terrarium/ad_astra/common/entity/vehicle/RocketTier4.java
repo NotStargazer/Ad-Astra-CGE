@@ -13,32 +13,37 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.Optional;
 
-public class RocketTier4 extends Rocket {
+public class RocketTier4 extends Rocket
+{
 
-    public RocketTier4(Level level) {
+    public RocketTier4(Level level)
+    {
         super(ModEntityTypes.TIER_4_ROCKET.get(), level, 4);
     }
 
-    public RocketTier4(EntityType<?> type, Level level) {
+    public RocketTier4(EntityType<?> type, Level level)
+    {
         super(type, level, 4);
     }
 
     @Override
     public void tryInsertingIntoTank()
     {
-        if (this.level.isClientSide)
+        if (!this.level.isClientSide)
         {
             ItemStack stack = this.getInventory().getItem(0);
             Optional<PlatformFluidItemHandler> possibleItemFluidContainer = FluidHooks.safeGetItemFluidManager(stack);
             if (possibleItemFluidContainer.isPresent())
             {
                 PlatformFluidItemHandler itemFluidHandler = possibleItemFluidContainer.get();
-                FluidHolder itemHolder = itemFluidHandler.getFluidInTank(0);
-                if (itemHolder.getFluid().is(ModTags.FUEL_TIER_4)) {
+                FluidState fluidState = itemFluidHandler.getFluidInTank(0).getFluid().defaultFluidState();
+                if (fluidState.is(ModTags.FUEL_TIER_4))
+                {
                     super.tryInsertingIntoTank();
                 }
             }
@@ -46,24 +51,29 @@ public class RocketTier4 extends Rocket {
     }
 
     @Override
-    public double getPassengersRidingOffset() {
+    public double getPassengersRidingOffset()
+    {
         return super.getPassengersRidingOffset() + 1.7f;
     }
 
     @Override
-    public boolean shouldSit() {
+    public boolean shouldSit()
+    {
         return false;
     }
 
     @Override
-    public ItemStack getDropStack() {
+    public ItemStack getDropStack()
+    {
         return ModItems.TIER_4_ROCKET.get().getDefaultInstance();
     }
 
     @Override
-    public void spawnAfterburnerParticles() {
+    public void spawnAfterburnerParticles()
+    {
         super.spawnAfterburnerParticles();
-        if (this.level instanceof ServerLevel serverWorld) {
+        if (this.level instanceof ServerLevel serverWorld)
+        {
             Vec3 pos = this.position();
 
             float xRotator = Mth.cos(this.getYRot() * ((float) Math.PI / 180.0f)) * 1.2f;
