@@ -22,7 +22,6 @@ public class ModTags {
     public static final TagKey<Block> BURNS_OUT = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(AdAstra.MOD_ID, "burns_out"));
 
     public static final TagKey<Fluid> FUELS = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":fuel"));
-    public static final TagKey<Fluid> EFFICIENT_FUELS = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(AdAstra.MOD_ID, "efficient_fuel"));
     public static final TagKey<Fluid> OXYGEN = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":oxygen"));
     public static final TagKey<Fluid> OIL = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":oil"));
     public static final TagKey<Fluid> FUEL_TIER_1 = TagKey.create(Registry.FLUID_REGISTRY, new ResourceLocation(getCommonNamespace() + ":fuel_tier_1"));

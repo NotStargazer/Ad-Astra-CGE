@@ -8,6 +8,7 @@ import earth.terrarium.botarium.api.fluid.PlatformFluidItemHandler;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 
 import java.util.Optional;

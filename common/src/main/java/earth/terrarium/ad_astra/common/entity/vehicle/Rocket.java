@@ -60,12 +60,33 @@ public class Rocket extends Vehicle {
     }
 
     @SuppressWarnings("deprecation")
-    public static long getRequiredAmountForLaunch(Fluid fluid) {
-        if (fluid.is(ModTags.EFFICIENT_FUELS)) {
-            return VehiclesConfig.RocketConfig.efficientFuelLaunchCost;
-        } else {
+    public static long getRequiredAmountForLaunch(Fluid fluid, int tier) {
+        if (fluid.is(ModTags.FUEL_TIER_1)) {
             return VehiclesConfig.RocketConfig.fuelLaunchCost;
         }
+        if (fluid.is(ModTags.FUEL_TIER_2)) {
+            return switch (tier) {
+                case 1 -> (long)(VehiclesConfig.RocketConfig.fuelLaunchCost * 0.75f);
+                default -> VehiclesConfig.RocketConfig.fuelLaunchCost;
+            };
+        }
+        if (fluid.is(ModTags.FUEL_TIER_3)) {
+            return switch (tier) {
+                case 1 -> (long)(VehiclesConfig.RocketConfig.fuelLaunchCost * 0.5f);
+                case 2 -> (long)(VehiclesConfig.RocketConfig.fuelLaunchCost * 0.75f);
+                default -> VehiclesConfig.RocketConfig.fuelLaunchCost;
+            };
+        }
+        if (fluid.is(ModTags.FUEL_TIER_4)) {
+            return switch (tier) {
+                case 1 -> (long)(VehiclesConfig.RocketConfig.fuelLaunchCost * 0.25f);
+                case 2 -> (long)(VehiclesConfig.RocketConfig.fuelLaunchCost * 0.5f);
+                case 3 -> (long)(VehiclesConfig.RocketConfig.fuelLaunchCost * 0.75f);
+                default -> VehiclesConfig.RocketConfig.fuelLaunchCost;
+            };
+        }
+
+        return VehiclesConfig.RocketConfig.fuelLaunchCost;
     }
 
     @Override
@@ -194,8 +215,6 @@ public class Rocket extends Vehicle {
         }
     }
 
-
-
     public void openPlanetSelectionGui() {
         if (!this.isVehicle()) {
             if (!this.level.isClientSide) {
@@ -257,12 +276,11 @@ public class Rocket extends Vehicle {
 
     @SuppressWarnings("deprecation")
     private void travel() {
-        double multiplier = (getTankHolder().getFluid().is(ModTags.EFFICIENT_FUELS) ? 2.5 : 1.0);
         if (!this.isNoGravity()) {
-            this.setDeltaMovement(this.getDeltaMovement().add(0.0, VehiclesConfig.RocketConfig.acceleration * multiplier, 0.0));
+            this.setDeltaMovement(this.getDeltaMovement().add(0.0, VehiclesConfig.RocketConfig.acceleration, 0.0));
         }
 
-        if (this.getDeltaMovement().y() > VehiclesConfig.RocketConfig.maxSpeed * multiplier) {
+        if (this.getDeltaMovement().y() > VehiclesConfig.RocketConfig.maxSpeed) {
             this.setDeltaMovement(0.0, VehiclesConfig.RocketConfig.maxSpeed, 0.0);
         }
 
@@ -281,7 +299,7 @@ public class Rocket extends Vehicle {
         this.setCountdownTicks(VehiclesConfig.RocketConfig.countDownTicks);
         // For shaking
         this.setTicksFrozen(Integer.MAX_VALUE);
-        this.getTank().extractFluid(FluidHooks.newFluidHolder(getTankHolder().getFluid(), getRequiredAmountForLaunch(getTankHolder().getFluid()), getTankHolder().getCompound()), false);
+        this.getTank().extractFluid(FluidHooks.newFluidHolder(getTankHolder().getFluid(), getRequiredAmountForLaunch(getTankHolder().getFluid(), getTier()), getTankHolder().getCompound()), false);
     }
 
     public boolean hasLaunchPad() {
